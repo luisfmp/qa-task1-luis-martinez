@@ -1,2 +1,2 @@
-# qa-task1-luis-martinez
-Ejercicio 1, Wizeline Academy Automation
+# QA Automation Certification
+Repository created for the first QA Automation Certification Task

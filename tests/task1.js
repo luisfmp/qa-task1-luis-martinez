@@ -8,7 +8,7 @@ beforeAll(function () {
 })
 
 describe("Login process", function() {
-    xit("Verify error when no email is captured", function() {
+    it("Verify error when no email is captured", function() {
         homePage.goToLogin();
         loginPage.clickOnCreateButton();
         expect(loginPage.isEmailErrorVisible()).toBe(true);

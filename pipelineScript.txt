@@ -1,0 +1,14 @@
+//Se necesita ejecutar sh 'webdriver-manager update && webdriver-manager start &' en una consola aparte
+pipeline {
+    agent any
+    stages {
+        stage('UI Tests') {
+            steps {
+                cleanWs()
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/luisfmp/qa-task1-luis-martinez.git']]])
+                sh 'npm install'
+                sh 'protractor confs/conf.js'
+            }
+        }
+    }
+}

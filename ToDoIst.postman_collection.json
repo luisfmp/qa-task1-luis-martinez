@@ -1,0 +1,786 @@
+{
+	"info": {
+		"_postman_id": "b029dda5-120b-4e23-ad0e-17a491367b73",
+		"name": "ToDoIst",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28abec2f-9689-4d29-87b0-73e9cf244116",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Get all projects\", function() {",
+							"  it(\"should response a 200 status code\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"  ",
+							"  it(\"should contains at least one project\", function() {",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    expect(jsonData.length).to.be.above(1);",
+							"  });",
+							"  ",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ab8a2d42-80c2-47e8-8c38-84474710e0ef",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/projects",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b6c2591-fdd6-493f-9e7c-79cb6b5c4ef0",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Create project\", function() {",
+							"  it(\"should respond status code 200\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"  ",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							"",
+							"pm.environment.set(\"projectId\",response.body.id);",
+							"pm.environment.set(\"projectName\",response.body.name);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dd22860f-ec42-467a-94d8-20bd9cc18311",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"random\",Math.random().toString(36).substring(3));"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Ejemplo{{random}}\"}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/projects",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9df9a05d-7680-4cf2-b4c1-7ba950d5462b",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Get a project\", function() {",
+							"  it(\"should respond status code 200\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							"",
+							"describe(\"Validate project data\",function(){",
+							"    it(\"should have the correct state name\",function(){",
+							"        response.body.name.should.eql(pm.environment.get(\"projectName\"));",
+							"    });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/projects/{{projectId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"projects",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a237b59a-5eb9-479a-9195-f28a29ecb4af",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Update a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Changed name\"}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/projects/{{projectId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"projects",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "807c5b7c-a9e0-4463-9867-ff99bf52ae51",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Delete a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/projects/{{projectId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"projects",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all tasks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e5bea3e-6d89-4a90-9213-d4ed845b23ae",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Get all tasks\", function() {",
+							"  it(\"should response a 200 status code\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a9b5cb9-7712-46a0-a04f-c7d38e39c257",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Create task\", function() {",
+							"  it(\"should respond status code 200\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"  ",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							"",
+							"pm.environment.set(\"taskId\",response.body.id);",
+							"pm.environment.set(\"taskContent\",response.body.content);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dd22860f-ec42-467a-94d8-20bd9cc18311",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"random\",Math.random().toString(36).substring(3));"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"Appointment with Maria{{random}}\", \"due_string\": \"tomorrow at 12:00\", \"due_lang\": \"en\", \"priority\": 4}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9612573-62d7-419f-8405-d3f508e92375",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Get a task\", function() {",
+							"  it(\"should respond status code 200\", function() {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it(\"should response in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							"",
+							"describe(\"Validate task data\",function(){",
+							"    it(\"should have the correct state name\",function(){",
+							"        response.body.content.should.eql(pm.environment.get(\"taskContent\"));",
+							"    });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks/{{taskId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks",
+						"{{taskId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97ce742f-de19-4d50-b0dd-5fdcfb246b0a",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Update a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should respond in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"Movies to watch\"}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks/{{taskId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks",
+						"{{taskId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97ce742f-de19-4d50-b0dd-5fdcfb246b0a",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Update a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should respond in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"Movies to watch\"}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks/{{taskId}}/close",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks",
+						"{{taskId}}",
+						"close"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reopen task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97ce742f-de19-4d50-b0dd-5fdcfb246b0a",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Update a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should respond in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"Movies to watch\"}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks/{{taskId}}/reopen",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks",
+						"{{taskId}}",
+						"reopen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97ce742f-de19-4d50-b0dd-5fdcfb246b0a",
+						"type": "text/javascript",
+						"exec": [
+							"eval(globals.postmanBDD);",
+							"",
+							"describe(\"Update a project\", function() {",
+							"  it(\"should respond 204 status code\", function() {",
+							"    response.should.have.status(204);",
+							"  });",
+							"  ",
+							"  it(\"should respond in less than 500ms\", function() {",
+							"    expect(responseTime).to.be.below(500);",
+							"  });",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{baseURL}}/API/v8/tasks/{{taskId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"API",
+						"v8",
+						"tasks",
+						"{{taskId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "20c3b240-ada0-4c94-bdf9-6af8ef28a175",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "65249771-b59f-43af-81b1-c52c28cb2ff9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

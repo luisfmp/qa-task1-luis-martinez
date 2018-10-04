@@ -6,6 +6,41 @@
 	},
 	"item": [
 		{
+			"name": "Install Postman BDD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d264d4cf-5939-42dd-a207-308cc5b452b8",
+						"type": "text/javascript",
+						"exec": [
+							"postman.setGlobalVariable('postmanBDD', responseBody);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://bigstickcarpet.com/postman-bdd/dist/postman-bdd.min.js",
+					"protocol": "http",
+					"host": [
+						"bigstickcarpet",
+						"com"
+					],
+					"path": [
+						"postman-bdd",
+						"dist",
+						"postman-bdd.min.js"
+					]
+				},
+				"description": "Gets BDD script"
+			},
+			"response": []
+		},
+		{
 			"name": "Get all projects",
 			"event": [
 				{

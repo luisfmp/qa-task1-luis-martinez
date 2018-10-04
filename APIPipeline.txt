@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+    stages {
+        stage('Api Tests') {
+            steps {
+                cleanWs()
+                checkout([$class: 'GitSCM', branches: [[name: '*/qa-task2-luis-martinez']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/luisfmp/qa-task1-luis-martinez.git']]])
+                sh "newman run ./ToDoIst.postman_collection.json -e './ToDoIst Production.postman_environment.json' --reporters cli,junit"
+            }
+        }
+    }
+}
